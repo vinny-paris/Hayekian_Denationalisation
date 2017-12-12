@@ -85,6 +85,7 @@ end <- glm(formula = count ~ alc + income + urban + mar + alc:income +
               alc:urban + income:urban + alc:mar + income:mar + urban:mar, family = quasipoisson, data = danish, x = T, maxit = 20, 
             epsilon = 1e-06, trace = T)
 anova(end, test = 'Chisq')
+goftests(danish$count, end$fitted.values, danish$count, end$df.residual)
 
 vc <- vcov(end)
 
@@ -102,7 +103,9 @@ library(ggplot2)
 ggplot(danish, aes(urban, count)) + geom_point(aes(col = mar)) + facet_grid(~income) + ggtitle('Income')
 ggplot(danish, aes(mar, count)) + geom_point(aes(col = alc)) + facet_grid(~income) + ggtitle('Income')
 
+ggplot(danish, aes(urban, count)) + geom_point(aes(col = alc)) + facet_grid(~income) + ggtitle('Income')
 
+ggplot(danish, aes(urban, alc)) + geom_point(aes(size = count))
 
 
 #log_it_1vs2 
@@ -124,14 +127,14 @@ log_it_1vs3
 
 
 library(GoodmanKruskal)
-library(reshape2)
+library(reshape2) 
 urban_income <- acast(danish, income ~ urban, sum)
-urban_income
-GKtauDataframe(urban_income)
+Gamma2.f(urban_income)
 
-
-
-
+alc_income <- acast(danish, alc ~ income, sum)
+Gamma2.f(alc_income)
+alc_urban <- acast(danish, alc ~ urban, sum)
+Gamma2.f(alc_urban)
 
 
 
