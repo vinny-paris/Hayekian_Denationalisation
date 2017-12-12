@@ -71,6 +71,7 @@ ggplot(subset(data, weight>0), aes(weight, cancer)) + geom_jitter(aes(col = as.f
 ggplot(subset(data, rrate>0 & hrt > 0), aes(rrate, hrt)) + geom_jitter(aes(col = as.factor(y)))
 
 
+ggplot(data, aes(y, index)) + geom_jitter(aes(col = as.factor(admissions))) + facet_grid(~admissions)
 
 
 ggplot(subset(data, weight>0), aes(weight, temp)) + geom_jitter(aes(col = as.factor(y))) + facet_grid(~as.factor(sex)) + ggtitle('Sex')
