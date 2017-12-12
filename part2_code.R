@@ -47,7 +47,7 @@ final <- glm(formula = y ~ edu + insur + disease + dnr + cancer + aps +
 plot(final$residuals)
 shapiro.test(final$residuals)
 final$aic
-
+goftests(data$y, final$fitted.values, data$y, final$df.residual)
 
 samp <- sample(1:3881, 200)
 dit <- data[samp,]
@@ -66,6 +66,8 @@ table(data$y, data$cancer)
 table(data$y, data$dnr)
 
 
+
+library(ggplot2)
 ggplot(subset(data, weight>0), aes(weight, cancer)) + geom_jitter(aes(col = as.factor(y)))
 
 ggplot(subset(data, rrate>0 & hrt > 0), aes(rrate, hrt)) + geom_jitter(aes(col = as.factor(y)))
@@ -75,6 +77,9 @@ ggplot(data, aes(y, index)) + geom_jitter(aes(col = as.factor(admissions))) + fa
 
 
 ggplot(subset(data, weight>0), aes(weight, temp)) + geom_jitter(aes(col = as.factor(y))) + facet_grid(~as.factor(sex)) + ggtitle('Sex')
+
+
+ggplot(data, aes(admissions, y)) + geom_jitter(aes(col = as.factor(admissions)))
 
 dim(data)
 samp <- sample(1:3881, 100)
